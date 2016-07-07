@@ -1,0 +1,57 @@
+{
+    "author": "mattaniahbeezy@gmail.com",
+    "dependencies": {
+        "date-format-lite": "^0.9.0",
+        "suncalc": "^1.7.0"
+    },
+    "keywords": [],
+    "name": "handy-siddur",
+    "pebble": {
+        "capabilities": [
+            "location"
+        ],
+        "displayName": "HANDY-SIDDUR",
+        "enableMultiJS": true,
+        "messageKeys": [
+            "ALOS",
+            "MISHEYAKIR",
+            "NEITZ",
+            "SHMA_GRA",
+            "TEFILA_GRA",
+            "CHATZOS",
+            "MINCHA_GEDOLA",
+            "SHKIA",
+            "TZAIS",
+            "TZAIS_RT",
+            "CHATZOS_LAILA"
+        ],
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "fonts/SILEzra.ttf",
+                    "name": "EZRA_20",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/TaameyFrankCLM.ttf",
+                    "name": "TAAMEY_FRANK_20",
+                    "targetPlatforms": null,
+                    "type": "font"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk"
+        ],
+        "uuid": "8e1e71b6-dbcc-4ceb-8db1-e6f7f31fa91f",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}

@@ -1,2 +1,2 @@
 #pragma once
-void test_split();
+char* fake_rtl(char* src);

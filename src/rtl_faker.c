@@ -5,18 +5,13 @@
 #include <string.h>
 #include <assert.h>
 
-#define MAX_WORDS_PER_LINE 5
+#define MAX_WORDS_PER_LINE 3
 
 int words_in_string=0;
 int total_lines=0;
 int chars_in_str=0;
 
-char* strdup(	const char *str){
-  char *copy;
-  copy = malloc(strlen(str)+1);
-  strncpy(copy,str,strlen(str)+1 );
-  return copy;
-}
+
 
 char* str_split_at_first_delim(char* a_str)
 {
@@ -33,8 +28,6 @@ char** str_split(char* src){
   char** ret_string;
   int word_count = 0;
   char* temp = src;
-
-
   //calculate words in source string based on spaces
   while(*temp != '\0'){
     if(*temp == ' ')
@@ -87,7 +80,7 @@ void swap_words(char** strs){
     }
     total_lines++;
   }
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "total Lines: %d", total_lines);
+
 }
 
 char* recombine_str(char** str){
@@ -96,7 +89,7 @@ char* recombine_str(char** str){
   if(rec_str){
     for(int i = 0; i<words_in_string;i++){
       if(i%MAX_WORDS_PER_LINE==0 && i!=0){
-        strncat(rec_str, "\r", 2);
+        strncat(rec_str, "\n", 2);
       }
       strncat(rec_str, str[i], strlen(str[i]));
       strncat(rec_str, " ", 1);
@@ -105,22 +98,71 @@ char* recombine_str(char** str){
   return rec_str;
 }
 
+void reverse_str(char* str){
+  int string_len = strlen(str);
+  char temp;
+  int   i = 0;
+  int j = string_len - 1;
 
-// char* fake_rtl(char* src){
-//   char** split_pnts = str_split(src);
-//   char** swaped_strs = str_swap(split_pnts);
-//   char* recombined_str = concat(swaped_strs);
-//   return reverse_str(recombined_str);
-// }
-
-void test_split(){
-  char months[] = "JAN FEB MAR APR MAY JUN JUL AUG SEP OCT NOV DEC";
-  chars_in_str = strlen(months);
-  char** tokens;
-  tokens = str_split(months);
-  swap_words(tokens);
-  char* ret_string = recombine_str(tokens);
-  free(tokens);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, ret_string);
-  free(ret_string);
+  while (i < j) {
+    temp = str[i];
+    str[i] = str[j];
+    str[j] = temp;
+    i++;
+    j--;
+  }
 }
+
+void reverse_tokens(char** tokens){
+  char* temp;
+  int i = 0;
+  int j = words_in_string -1;
+  while(i<j){
+    temp = tokens[i];
+    tokens[i]=tokens[j];
+    tokens[j]=temp;
+    i++;
+    j--;
+  }
+}
+
+void reverse( char *start, char *end )
+{
+  while( start < end )
+  {
+    char c = *start;
+    *start++ = *end;
+    *end-- = c;
+  }
+}
+
+char *reverse_char( char *start )
+{
+  char *end = start;
+  while( (end[1] & 0xC0) == 0x80 ) end++;
+  reverse( start, end );
+  return( end+1 );
+}
+
+void reverse_string( char *string )
+{
+  char *end = string;
+  while( *end ) end = reverse_char( end );
+  reverse( string, end-1 );
+}
+
+
+char* fake_rtl(char* src){
+  reverse_string(src);
+  chars_in_str = strlen(src);
+  char** tokens;
+  tokens = str_split(src);
+  swap_words(tokens);
+  reverse_tokens(tokens);
+  //reverse each token
+  char* ret_string = recombine_str(tokens);
+  APP_LOG(APP_LOG_LEVEL_DEBUG, ret_string);
+  free(tokens);
+  return ret_string;
+}
+

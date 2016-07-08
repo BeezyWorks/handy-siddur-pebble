@@ -1,13 +1,15 @@
 #include "pebble.h"
 #include "luach.h"
-#include "mein_shalosh.h"
-#include "rtl_faker.h"
+#include "text_window.h"
+#include "hebrew_texts.h"
 
 #define NUM_CELLS 5
 #define MENU_CELL_HEIGHT 48
 
 static Window *s_main_window;
 static MenuLayer *s_menu_layer;
+
+
 
 static uint16_t get_num_rows_callback(MenuLayer *menu_layer, uint16_t section_index, void *context) {
   return NUM_CELLS;
@@ -39,8 +41,14 @@ static int16_t get_cell_height_callback(struct MenuLayer *menu_layer, MenuIndex 
 
 static void select_callback(struct MenuLayer *menu_layer, MenuIndex *cell_index, void *context) {
   switch(cell_index->row) {
+    case 0:
+    text_window_push(bentching_text);
+    break;
     case 1:
-    mein_shalosh_window_push();
+    text_window_push(mein_shalosh);
+    break;
+    case 2:
+    text_window_push(tefilas_haderech);
     break;
     case 4:
     luach_window_push();
@@ -74,7 +82,6 @@ static void init() {
     .unload = window_unload,
   });
   window_stack_push(s_main_window, true);
-  test_split();
 }
 
 static void deinit() {
